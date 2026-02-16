@@ -13,7 +13,7 @@ export function registerGetProgress(
       onToolCall();
       try {
         const { stdout } = await dockerExec(
-          "cat /home/kasm-user/.coeadapt/progress.json 2>/dev/null || " +
+          "cat /config/.coeadapt/progress.json 2>/dev/null || " +
           'echo \'{"activities":[],"assessments":[],"progress_percent":0}\'',
         );
         return { content: [{ type: "text" as const, text: stdout }] };

@@ -18,7 +18,7 @@ export function registerWorkspaceStatus(
             type: "text",
             text: JSON.stringify({
               running,
-              url: running ? "https://localhost:6901" : null,
+              url: running ? "https://localhost:3001" : null,
               status: running ? "healthy" : "stopped",
             }),
           },

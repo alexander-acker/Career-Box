@@ -5,7 +5,7 @@ interface Settings {
   autoStartWorkspace: boolean;
   autoUpdateImage: boolean;
   containerMemoryMb: number;
-  vncPassword: string;
+  workspacePassword: string;
 }
 
 const DEFAULTS: Settings = {
@@ -13,7 +13,7 @@ const DEFAULTS: Settings = {
   autoStartWorkspace: false,
   autoUpdateImage: false,
   containerMemoryMb: 2048,
-  vncPassword: "coeadapt",
+  workspacePassword: "coeadapt",
 };
 
 let storeInstance: Awaited<ReturnType<typeof import("@tauri-apps/plugin-store").Store.load>> | null = null;
@@ -26,7 +26,7 @@ async function getStore() {
         autoStartWorkspace: false,
         autoUpdateImage: false,
         containerMemoryMb: 2048,
-        vncPassword: "coeadapt",
+        workspacePassword: "coeadapt",
       },
       autoSave: true,
     });
@@ -49,9 +49,9 @@ export function useSettings() {
       const autoStartWorkspace = (await store.get<boolean>("autoStartWorkspace")) ?? DEFAULTS.autoStartWorkspace;
       const autoUpdateImage = (await store.get<boolean>("autoUpdateImage")) ?? DEFAULTS.autoUpdateImage;
       const containerMemoryMb = (await store.get<number>("containerMemoryMb")) ?? DEFAULTS.containerMemoryMb;
-      const vncPassword = (await store.get<string>("vncPassword")) ?? DEFAULTS.vncPassword;
+      const workspacePassword = (await store.get<string>("workspacePassword")) ?? DEFAULTS.workspacePassword;
 
-      setSettings({ autoStartApp, autoStartWorkspace, autoUpdateImage, containerMemoryMb, vncPassword });
+      setSettings({ autoStartApp, autoStartWorkspace, autoUpdateImage, containerMemoryMb, workspacePassword });
     } catch {
       // Not in Tauri context
     } finally {
@@ -93,10 +93,10 @@ export function useSettings() {
     setSettings((prev) => ({ ...prev, containerMemoryMb: value }));
   }, []);
 
-  const setVncPassword = useCallback(async (value: string) => {
+  const setWorkspacePassword = useCallback(async (value: string) => {
     const store = await getStore();
-    await store.set("vncPassword", value);
-    setSettings((prev) => ({ ...prev, vncPassword: value }));
+    await store.set("workspacePassword", value);
+    setSettings((prev) => ({ ...prev, workspacePassword: value }));
   }, []);
 
   return {
@@ -107,6 +107,6 @@ export function useSettings() {
     setAutoStartWorkspace,
     setAutoUpdateImage,
     setContainerMemory,
-    setVncPassword,
+    setWorkspacePassword,
   };
 }

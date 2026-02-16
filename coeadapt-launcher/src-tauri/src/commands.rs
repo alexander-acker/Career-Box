@@ -61,13 +61,13 @@ pub async fn pull_workspace_image(app: tauri::AppHandle) -> Result<(), String> {
 pub fn create_workspace(app: tauri::AppHandle) -> Result<String, String> {
     use tauri_plugin_store::StoreExt;
 
-    let (memory_mb, vnc_password) = if let Ok(store) = app.store("settings.json") {
+    let (memory_mb, password) = if let Ok(store) = app.store("settings.json") {
         let mem = store
             .get("containerMemoryMb")
             .and_then(|v| v.as_u64())
             .unwrap_or(2048);
         let pw = store
-            .get("vncPassword")
+            .get("workspacePassword")
             .and_then(|v| v.as_str().map(|s| s.to_string()))
             .unwrap_or_else(|| "coeadapt".to_string());
         (mem, pw)
@@ -75,7 +75,7 @@ pub fn create_workspace(app: tauri::AppHandle) -> Result<String, String> {
         (2048, "coeadapt".to_string())
     };
 
-    container::create_container_with_config(memory_mb, &vnc_password)
+    container::create_container_with_config(memory_mb, &password)
 }
 
 #[tauri::command]
@@ -160,21 +160,21 @@ pub fn open_workspace_browser() -> Result<(), String> {
     #[cfg(target_os = "windows")]
     {
         std::process::Command::new("cmd")
-            .args(["/C", "start", "https://localhost:6901"])
+            .args(["/C", "start", "https://localhost:3001"])
             .spawn()
             .map_err(|e| e.to_string())?;
     }
     #[cfg(target_os = "macos")]
     {
         std::process::Command::new("open")
-            .arg("https://localhost:6901")
+            .arg("https://localhost:3001")
             .spawn()
             .map_err(|e| e.to_string())?;
     }
     #[cfg(target_os = "linux")]
     {
         std::process::Command::new("xdg-open")
-            .arg("https://localhost:6901")
+            .arg("https://localhost:3001")
             .spawn()
             .map_err(|e| e.to_string())?;
     }

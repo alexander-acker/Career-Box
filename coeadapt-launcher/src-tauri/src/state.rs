@@ -72,5 +72,5 @@ pub struct McpHealthInfo {
 }
 
 pub const CONTAINER_NAME: &str = "coeadapt-workspace";
-pub const IMAGE_NAME: &str = "coeadapt/workspace:latest";
+pub const IMAGE_NAME: &str = "coeadapt/career-box:latest";
 pub const VOLUME_NAME: &str = "coeadapt-data";

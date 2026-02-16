@@ -53,23 +53,31 @@ pub fn create_container() -> Result<String, String> {
     create_container_with_config(2048, "coeadapt")
 }
 
-pub fn create_container_with_config(memory_mb: u64, vnc_password: &str) -> Result<String, String> {
+pub fn create_container_with_config(memory_mb: u64, password: &str) -> Result<String, String> {
     let memory_flag = format!("--memory={}m", memory_mb);
-    let vnc_env = format!("VNC_PW={}", vnc_password);
+    let password_env = format!("PASSWORD={}", password);
 
     docker_cmd(&[
         "run",
         "-d",
         "--name",
         CONTAINER_NAME,
-        "--shm-size=512m",
+        "--shm-size=1g",
         &memory_flag,
         "-p",
-        "6901:6901",
+        "3001:3001",
         "-v",
-        &format!("{}:/home/kasm-user", VOLUME_NAME),
+        &format!("{}:/config", VOLUME_NAME),
         "-e",
-        &vnc_env,
+        "PUID=1000",
+        "-e",
+        "PGID=1000",
+        "-e",
+        "TZ=Etc/UTC",
+        "-e",
+        "CUSTOM_USER=abc",
+        "-e",
+        &password_env,
         "--restart",
         "unless-stopped",
         IMAGE_NAME,

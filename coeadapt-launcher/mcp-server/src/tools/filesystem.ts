@@ -59,7 +59,7 @@ export function registerFilesystemTools(
       path: z
         .string()
         .describe("Directory path to list")
-        .default("/home/kasm-user"),
+        .default("/config"),
     },
     async ({ path }) => {
       onToolCall();

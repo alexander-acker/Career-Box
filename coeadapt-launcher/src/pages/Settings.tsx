@@ -244,8 +244,8 @@ export default function Settings() {
                   <label className="text-sm text-text-muted">Workspace Password</label>
                   <input
                     type="password"
-                    value={appSettings.settings.vncPassword}
-                    onChange={(e) => appSettings.setVncPassword(e.target.value)}
+                    value={appSettings.settings.workspacePassword}
+                    onChange={(e) => appSettings.setWorkspacePassword(e.target.value)}
                     placeholder="Enter password"
                     className="w-full px-4 py-2 bg-surface-200 border border-surface-300 rounded-lg text-sm text-text-primary placeholder-text-faint focus:outline-none focus:border-accent"
                   />

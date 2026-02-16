@@ -24,7 +24,7 @@ pub async fn wait_for_workspace(
             }),
         );
 
-        match client.get("https://localhost:6901").send().await {
+        match client.get("https://localhost:3001").send().await {
             Ok(resp) if resp.status().is_success() || resp.status().is_redirection() => {
                 let _ = app.emit("workspace-ready", true);
                 return Ok(());
